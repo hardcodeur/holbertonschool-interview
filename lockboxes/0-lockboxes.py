@@ -1,44 +1,47 @@
 #!/usr/bin/python3
+"""
+This module contains the canUnlockAll function that determines
+if all the boxes in a list can be unlocked.
+"""
+
 def canUnlockAll(boxes):
     """
-    Vérifie si toutes les boîtes peuvent être déverrouillées à partir de la boîte 0.
-    
-    Paramètres:
-        boxes (list): Liste de boîtes, où chaque boîte contient une liste de clés.
-        
-    Retourne:
-        bool: True si toutes les boîtes peuvent être déverrouillées, sinon False.
+    Determines if all boxes can be unlocked.
+
+    Parameters:
+    boxes (list of list of int): The list of boxes, where each box contains a list of keys.
+
+    Returns:
+    bool: True if all boxes can be unlocked, False otherwise.
     """
-    status_boxes = []  # Liste pour suivre l'état de chaque boîte (ouverte ou fermée)
-    init_statuboxes(boxes, status_boxes)  # Initialiser l'état des boîtes
-    
-    keys = boxes[0]  # Commence avec les clés de la première boîte
+    status_boxes = []  # List to track which boxes are unlocked
+    init_status_boxes(boxes, status_boxes)
+    keys = boxes[0]  # Start with the keys in the first box
+
+    # Loop through all the keys to unlock boxes
     for key in keys:
-        status_boxes[key] = True  # Déverrouille la boîte correspondant à la clé actuelle
-        
-        # Récupère les clés dans la boîte déverrouillée
-        keys_unlock = boxes[key]
+        status_boxes[key] = True  # Unlock the box corresponding to the key
+        keys_unlock = boxes[key]  # Get the keys from the newly unlocked box
         if keys_unlock:
+            # Add new keys to the list of keys if they are not already present
             for new_key in keys_unlock:
-                # Ajoute la nouvelle clé à la liste des clés si elle n'y est pas déjà
                 if new_key not in keys:
                     keys.append(new_key)
-    
-    # Si toutes les boîtes sont déverrouillées (pas de False dans status_boxes)
+
+    # If any box remains locked, return False
     if False in status_boxes:
         return False
     else:
         return True
 
+def init_status_boxes(boxes, status_boxes):
+    """
+    Initializes the status of each box to False (locked), except the first one.
 
-def init_statuboxes(boxes, status_boxes):
+    Parameters:
+    boxes (list of list of int): The list of boxes.
+    status_boxes (list of bool): The list that tracks the lock status of each box.
     """
-    Initialise l'état de chaque boîte (fermée par défaut sauf la première).
-    
-    Paramètres:
-        boxes (list): Liste de boîtes.
-        status_boxes (list): Liste qui sera utilisée pour stocker l'état des boîtes.
-    """
-    for i in boxes:
-        status_boxes.append(False)  # Toutes les boîtes sont fermées au départ
-    status_boxes[0] = True  # La première boîte est ouverte par défaut
+    for _ in boxes:
+        status_boxes.append(False)  # Initially, all boxes are locked
+    status_boxes[0] = True  # The first box is always unlocked
