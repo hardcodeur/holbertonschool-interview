@@ -20,8 +20,7 @@ def canUnlockAll(boxes):
                 for newKey in keysUnlock:  # Iterate through the new keys
                     if newKey not in keys:  # Avoid duplicates
                         keys.append(newKey)  # Add the new key to the keys list
-    
-    print(statusBoxes)  # Print the status of all boxes for debugging
+
     
     # Return True if all boxes are unlocked, otherwise return False
     if False in statusBoxes:
@@ -36,3 +35,9 @@ def initStatusBoxes(boxes, statusBoxes):
     for _ in boxes:
         statusBoxes.append(False)  # Initially, all boxes are locked
     statusBoxes[0] = True  # The first box is always unlocked
+
+
+boxes = [[1], [2], [3], [4], []]
+print(canUnlockAll(boxes))
+boxes = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
+print(canUnlockAll(boxes))
