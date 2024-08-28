@@ -1,47 +1,38 @@
 #!/usr/bin/python3
 """
-This module contains the canUnlockAll function that determines
-if all the boxes in a list can be unlocked.
+Module to determine if all boxes can be unlocked
 """
 
 def canUnlockAll(boxes):
     """
-    Determines if all boxes can be unlocked.
-
-    Parameters:
-    boxes (list of list of int): The list of boxes, where each box contains a list of keys.
-
-    Returns:
-    bool: True if all boxes can be unlocked, False otherwise.
+    Determines if all the boxes can be unlocked
     """
-    status_boxes = []  # List to track which boxes are unlocked
-    init_status_boxes(boxes, status_boxes)
-    keys = boxes[0]  # Start with the keys in the first box
-
-    # Loop through all the keys to unlock boxes
+    statusBoxes = []
+    initStatusBoxes(boxes, statusBoxes)  # Initialize the status of all boxes
+    keys = boxes[0]  # Get the keys from the first box
+    
+    # Iterate through each key in the initial set of keys
     for key in keys:
-        status_boxes[key] = True  # Unlock the box corresponding to the key
-        keys_unlock = boxes[key]  # Get the keys from the newly unlocked box
-        if keys_unlock:
-            # Add new keys to the list of keys if they are not already present
-            for new_key in keys_unlock:
-                if new_key not in keys:
-                    keys.append(new_key)
-
-    # If any box remains locked, return False
-    if False in status_boxes:
+        if key < len(boxes):  # Ensure the key is a valid index
+            statusBoxes[key] = True  # Mark the box as unlocked
+            keysUnlock = boxes[key]  # Get the keys from the current box
+            if keysUnlock:  # If there are any keys in this box
+                for newKey in keysUnlock:  # Iterate through the new keys
+                    if newKey not in keys:  # Avoid duplicates
+                        keys.append(newKey)  # Add the new key to the keys list
+    
+    print(statusBoxes)  # Print the status of all boxes for debugging
+    
+    # Return True if all boxes are unlocked, otherwise return False
+    if False in statusBoxes:
         return False
     else:
         return True
 
-def init_status_boxes(boxes, status_boxes):
+def initStatusBoxes(boxes, statusBoxes):
     """
-    Initializes the status of each box to False (locked), except the first one.
-
-    Parameters:
-    boxes (list of list of int): The list of boxes.
-    status_boxes (list of bool): The list that tracks the lock status of each box.
+    Initializes the status of all boxes to False, except the first one
     """
     for _ in boxes:
-        status_boxes.append(False)  # Initially, all boxes are locked
-    status_boxes[0] = True  # The first box is always unlocked
+        statusBoxes.append(False)  # Initially, all boxes are locked
+    statusBoxes[0] = True  # The first box is always unlocked
