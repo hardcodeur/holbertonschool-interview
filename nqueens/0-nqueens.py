@@ -39,7 +39,7 @@ def checker(matrix, x, y):
     return True
 
 if len(arg) != 2:
-    print("Usage: nqueens N\n")
+    print("Usage: nqueens N")
     sys.exit(1)
 
 try:
@@ -49,7 +49,7 @@ except ValueError:
     sys.exit(1)
 
 if n < 4:
-    print("N must be at least 4\n")
+    print("N must be at least 4")
     sys.exit(1)
 
 all_solutions = []
