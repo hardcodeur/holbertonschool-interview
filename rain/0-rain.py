@@ -1,36 +1,56 @@
 #!/usr/bin/python3
 
-def findWall2(wallIndex,walls):
-    for wall in walls[wallIndex+1:]:
-        if(wall > 0): 
+def find_next_wall(wall_index, walls):
+    """Trouve le prochain mur à droite d'un mur donné.
+
+    Args:
+        wall_index (int): L'index du mur actuel.
+        walls (list): La liste des hauteurs des murs.
+
+    Returns:
+        int: La hauteur du prochain mur ou 0 si aucun mur n'est trouvé.
+    """
+    for wall in walls[wall_index + 1:]:
+        if wall > 0:
             return wall
-        else :
-            False
-      
-def cptWaterSpace(wallIndex,walls):
-    waterSpace = 0
-    for wall in walls[wallIndex+1:]:
-        if(wall > 0): 
-            return waterSpace
-        else :
-            waterSpace += 1
+    return 0  # Retourne 0 si aucun mur n'est trouvé
+
+
+def count_water_space(wall_index, walls):
+    """Compte l'espace d'eau entre le mur donné et le prochain mur.
+
+    Args:
+        wall_index (int): L'index du mur actuel.
+        walls (list): La liste des hauteurs des murs.
+
+    Returns:
+        int: Le nombre d'espaces d'eau entre le mur actuel et le prochain mur.
+    """
+    water_space = 0
+    for wall in walls[wall_index + 1:]:
+        if wall > 0:
+            return water_space
+        water_space += 1
+    return water_space  # Retourne l'espace d'eau compté
+
 
 def rain(walls):
-    rainwater = 0
-    for wall in walls:
-      if(wall > 0):
-        wallIndex=walls.index(wall)
-        wall_1 = wall
-        wall_2 = findWall2(wallIndex,walls)
-        waterSpace = cptWaterSpace(wallIndex,walls)
+    """Calcule la quantité d'eau de pluie retenue entre les murs.
 
-        if wall_2 and waterSpace:
-            if(wall_1 > wall_2) :
-                water = wall_2
-            else:
-                water = wall_1
-            
-            rainwater += water * waterSpace
+    Args:
+        walls (list): La liste des hauteurs des murs.
+
+    Returns:
+        int: La quantité totale d'eau de pluie retenue.
+    """
+    rainwater = 0
+    for wall_index, wall_height in enumerate(walls):
+        if wall_height > 0:
+            next_wall = find_next_wall(wall_index, walls)
+            water_space = count_water_space(wall_index, walls)
+
+            if next_wall > 0 and water_space > 0:
+                water_level = min(wall_height, next_wall)
+                rainwater += water_level * water_space
 
     return rainwater
-
